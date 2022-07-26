@@ -1,0 +1,7 @@
+soundfile
+librosa
+ray
+pesq
+pystoi
+asteroid==0.4.5
+torchvision==0.11.2

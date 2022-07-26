@@ -13,11 +13,12 @@ docker create -v absolute_DCCRN_directory:/DCCRN -v absolute_path_to_dataset:/da
 
 docker start My_Docker
 
-docker exec -it My_Docker
+docker exec -it My_Docker /bin/bash
 ```
 
 # Установка библиотек
 ```
+pip install -r requirements.txt
 ```
 
 # Перевод набора данных в wav формат
@@ -36,7 +37,7 @@ python trainer.py
 ```
 cd /DCCRN
 
-python my_tester.py
+python my_tester.py path_to_weights
 
 python MSE_calc.py 
 ```

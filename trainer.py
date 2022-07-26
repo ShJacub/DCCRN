@@ -99,6 +99,10 @@ validation_loader = create_dataloader(mode='valid')
 #                        Set a log file to store progress.                    #
 #               Set a hps file to store hyper-parameters information.         #
 ###############################################################################
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+if not os.path.exists('job'):
+    os.mkdir('job')
 # Load the checkpoint
 if cfg.chkpt_path is not None:
     print('Resuming from checkpoint: %s' % cfg.chkpt_path)

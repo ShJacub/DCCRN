@@ -6,6 +6,7 @@ import config as cfg
 from train import model_eval
 from dataloader import create_dataloader_for_test
 from model import DCCRN
+import sys
 
 
 ###############################################################################
@@ -47,6 +48,7 @@ def MakeDirs(direc, new_direc):
             os.mkdir(os.path.join(new_direc, folder_name))
 
 
+path_to_weights = sys.argv[1]
 ###############################################################################
 #                          Parameter Initialization                           #
 ###############################################################################
@@ -90,46 +92,45 @@ print('total params   : %d (%.2f M, %.2f MBytes)\n' %
 #                        Set a log file to store progress.                    #
 #               Set a hps file to store hyper-parameters information.         #
 ###############################################################################
-# Load the checkpoint
-if cfg.chkpt_path is not None:
-    print('Resuming from checkpoint: %s' % cfg.chkpt_path)
+# Set a log file to store progress.
+# dir_to_save = cfg.job_dir + cfg.chkpt_model
+# dir_to_logs = cfg.logs_dir + cfg.chkpt_model
+# # Load the checkpoint
+# if cfg.chkpt_path is not None:
+#     print('Resuming from checkpoint: %s' % cfg.chkpt_path)
 
-    # Set a log file to store progress.
-    dir_to_save = cfg.job_dir + cfg.chkpt_model
-    dir_to_logs = cfg.logs_dir + cfg.chkpt_model
-
-    checkpoint = torch.load(cfg.chkpt_path)
-    model.load_state_dict(checkpoint['model'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
-    epoch_start_idx = checkpoint['epoch'] + 1
-    mse_vali_total = np.load(str(dir_to_save + '/mse_vali_total.npy'))
-    if len(mse_vali_total) < cfg.max_epochs:
-        plus = cfg.max_epochs - len(mse_vali_total)
-        mse_vali_total = np.concatenate((mse_vali_total, np.zeros(plus)), 0)
+#     checkpoint = torch.load(path_to_weights)
+#     model.load_state_dict(checkpoint['model'])
+#     optimizer.load_state_dict(checkpoint['optimizer'])
+#     epoch_start_idx = checkpoint['epoch'] + 1
+#     mse_vali_total = np.load(str(dir_to_save + '/mse_vali_total.npy'))
+#     if len(mse_vali_total) < cfg.max_epochs:
+#         plus = cfg.max_epochs - len(mse_vali_total)
+#         mse_vali_total = np.concatenate((mse_vali_total, np.zeros(plus)), 0)
 
 
-if not os.path.exists(dir_to_save):
-    os.mkdir(dir_to_save)
-    os.mkdir(dir_to_logs)
+# if not os.path.exists(dir_to_save):
+#     os.mkdir(dir_to_save)
+#     os.mkdir(dir_to_logs)
 
-log_fname = str(dir_to_save + '/log.txt')
-if not os.path.exists(log_fname):
-    fp = open(log_fname, 'w')
-    write_status_to_log_file(fp, total_params)
-else:
-    fp = open(log_fname, 'a')
+# log_fname = str(dir_to_save + '/log.txt')
+# if not os.path.exists(log_fname):
+#     fp = open(log_fname, 'w')
+#     write_status_to_log_file(fp, total_params)
+# else:
+#     fp = open(log_fname, 'a')
 
-# Set a hps file to store hyper-parameters information.
-hps_fname = str(dir_to_save + '/hp_str.txt')
-fp_h = open(hps_fname, 'w')
+# # Set a hps file to store hyper-parameters information.
+# hps_fname = str(dir_to_save + '/hp_str.txt')
+# fp_h = open(hps_fname, 'w')
 
-with open('config.py', 'r') as f:
-    hp_str = ''.join(f.readlines())
-fp_h.write(hp_str)
-fp_h.close()
+# with open('config.py', 'r') as f:
+#     hp_str = ''.join(f.readlines())
+# fp_h.write(hp_str)
+# fp_h.close()
 
-min_index = np.argmin(mse_vali_total)
-print('Minimum validation loss is at '+str(min_index+1)+'.')
+# min_index = np.argmin(mse_vali_total)
+# print('Minimum validation loss is at '+str(min_index+1)+'.')
 
 ###############################################################################
 #                                    Test                                     #
@@ -139,18 +140,12 @@ if cfg.test is True:
 
     # check the lowest validation loss epoch
     # want_to_check = torch.load(dir_to_save + '/chkpt_opt.pt')
-    want_to_check = torch.load(cfg.chkpt_path)
+    want_to_check = torch.load(path_to_weights)
     model.load_state_dict(want_to_check['model'])
     optimizer.load_state_dict(want_to_check['optimizer'])
     epoch_start_idx = want_to_check['epoch'] + 1
-    mse_vali_total = np.load(str(dir_to_save + '/mse_vali_total.npy'))
 
     test_loader = create_dataloader_for_test(mode='test')
     test_loss, test_pesq, test_stoi = \
         model_eval(model,
-                    test_loader, dir_to_save, DEVICE)
-
-
-    fp.close()
-else:
-    fp.close()
+                    test_loader, DEVICE)

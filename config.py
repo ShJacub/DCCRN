@@ -11,7 +11,7 @@ test = True
 # path
 job_dir = './job/'
 logs_dir = './logs/'
-chkpt_path = './job/7.25_DCCRN_MODEL INFORMATION : IT IS USED FOR FILE NAME/chkpt_24.pt'
+chkpt_path = None
 chkpt_model = '7.25_DCCRN_MODEL INFORMATION : IT IS USED FOR FILE NAME/'
 # chkpt_path = job_dir + chkpt_model + 'chkpt_88.pt'
 

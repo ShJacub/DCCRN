@@ -249,7 +249,7 @@ def GetWave(model, inputs):
     wave = torch.cat(wave, dim=-1)
     return wave
 
-def model_eval(model, test_loader, dir_to_save, DEVICE):
+def model_eval(model, test_loader, DEVICE):
     model.eval()
     with torch.no_grad():
 
