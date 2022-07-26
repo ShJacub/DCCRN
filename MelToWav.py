@@ -82,5 +82,12 @@ def MelToWav(data_dir='datasets/mel/val', save_dir='datasets/wav/val'):
 
 if __name__ == '__main__':
 
-    MelToWav(data_dir='datasets/mel/val', save_dir='datasets/wav/val')
-    MelToWav(data_dir='datasets/mel/train', save_dir='datasets/wav/train')
+    if not os.path.exists('/datasets/wav'):
+        os.mkdir('/datasets/wav')
+    if not os.path.exists('/datasets/wav/val'):
+        os.mkdir('/datasets/wav/val')
+    if not os.path.exists('/datasets/wav/train'):
+        os.mkdir('/datasets/wav/train')
+
+    MelToWav(data_dir='/datasets/mel/val', save_dir='/datasets/wav/val')
+    MelToWav(data_dir='/datasets/mel/train', save_dir='/datasets/wav/train')
