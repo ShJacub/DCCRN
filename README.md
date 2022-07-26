@@ -18,6 +18,7 @@ docker exec -it My_Docker /bin/bash
 
 # Установка библиотек
 ```
+cd /DCCRN
 pip install -r requirements.txt
 ```
 

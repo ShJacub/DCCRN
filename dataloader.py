@@ -107,7 +107,7 @@ class Wave_Dataset_for_test(Dataset):
         self.noisy_dir = '/datasets/wav/val/noisy'
         self.clean_dir = '/datasets/wav/val/clean'
         self.file_names = self.GetFilenames(self.noisy_dir)
-        print(self.file_names[:5])
+        # print(self.file_names[:5])
 
         # self.input = np.load(self.input_path)
 
