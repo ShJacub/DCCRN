@@ -26,7 +26,7 @@ pip install -r requirements.txt
 ```
 cd /DCCRN
 
-python MelToWav.py
+python MelToWav.py [num_cpus]
 ```
 
 # Обучение
@@ -38,7 +38,7 @@ python trainer.py
 ```
 cd /DCCRN
 
-python my_tester.py path_to_weights
+python my_tester.py [path_to_weights]
 
-python MSE_calc.py 
+python MSE_calc.py [num_cpus]
 ```

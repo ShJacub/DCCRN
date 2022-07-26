@@ -4,8 +4,9 @@ import soundfile
 import librosa
 import ray
 # from ray.util.multiprocessing import Pool
+import sys
 
-num_cpus = 40
+num_cpus = int(sys.argv[1])
 ray.init(num_cpus=num_cpus)
 
 

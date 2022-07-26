@@ -5,8 +5,9 @@ import numpy as np
 import soundfile
 import librosa
 import ray
+import sys
 
-num_cpus = 12
+num_cpus = int(sys.argv[1])
 ray.init(num_cpus=num_cpus)
 
 @ray.remote
